@@ -12,9 +12,12 @@ app.use(express.json());
 
 // Routes
 const expenseRoutes = require('./routes/expenseRoutes');
-app.use('/api/expenses', expenseRoutes);
+const authRoutes = require('./routes/auth'); // ⬅️ Add this
 
-// DB & Start
+app.use('/api/expenses', expenseRoutes);
+app.use('/api/auth', authRoutes); // ⬅️ Mount auth routes
+
+// DB Connection & Server Start
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('MongoDB connected');
@@ -22,3 +25,4 @@ mongoose.connect(process.env.MONGO_URI)
     app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
   })
   .catch((err) => console.error(err));
+
